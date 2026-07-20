@@ -75,10 +75,19 @@ export default function OnboardingScreen() {
   };
 
   const onNext = () => {
-    if (isLast) finish();
-    else listRef.current?.scrollToIndex({ index: index + 1, animated: true });
+    if (isLast) {
+      finish();
+      return;
+    }
+    // Actualizamos el índice al toque (no dependemos del evento de scroll, que
+    // en web no siempre llega) y movemos el carrusel.
+    const next = index + 1;
+    setIndex(next);
+    listRef.current?.scrollToIndex({ index: next, animated: true });
   };
 
+  // Mantiene el índice sincronizado cuando se arrastra. Usamos onScroll (que sí
+  // dispara en web) además del fin de momentum en nativo.
   const onScrollEnd = (offsetX: number) => {
     const i = Math.round(offsetX / width);
     if (i !== index) setIndex(i);
@@ -102,6 +111,8 @@ export default function OnboardingScreen() {
         pagingEnabled
         showsHorizontalScrollIndicator={false}
         getItemLayout={(_, i) => ({ length: width, offset: width * i, index: i })}
+        scrollEventThrottle={16}
+        onScroll={(e) => onScrollEnd(e.nativeEvent.contentOffset.x)}
         onMomentumScrollEnd={(e) => onScrollEnd(e.nativeEvent.contentOffset.x)}
         renderItem={({ item }) => (
           <View style={[styles.slide, { width }]}>

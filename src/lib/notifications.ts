@@ -49,7 +49,8 @@ async function ensureAndroidChannel(): Promise<void> {
 // romper en cualquier caso que no aplique: emulador/web, permiso denegado o
 // falta de projectId.
 export async function registerForPushNotifications(): Promise<string | null> {
-  if (!Device.isDevice) return null; // emulador/web no reciben push reales
+  if (Platform.OS === 'web') return null; // en web no aplica el push nativo
+  if (!Device.isDevice) return null; // emulador no recibe push reales
 
   await ensureAndroidChannel();
 

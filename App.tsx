@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, ActivityIndicator } from 'react-native';
+import { View, ActivityIndicator, Platform } from 'react-native';
 import { NavigationContainer, createNavigationContainerRef } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
@@ -70,10 +70,12 @@ export default function App() {
   }, []);
 
   // Toques en notificaciones: en vivo (app abierta/en segundo plano) y el caso
-  // de arranque en frío (la app se abrió tocando una notificación).
+  // de arranque en frío (la app se abrió tocando una notificación). No aplica en
+  // web (estas APIs no existen ahí y tiran error).
   useEffect(() => {
+    if (Platform.OS === 'web') return;
     const sub = Notifications.addNotificationResponseReceivedListener(openFromNotification);
-    Notifications.getLastNotificationResponseAsync().then(openFromNotification);
+    Notifications.getLastNotificationResponseAsync().then(openFromNotification).catch(() => {});
     return () => sub.remove();
   }, []);
 
