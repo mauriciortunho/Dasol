@@ -11,15 +11,37 @@
     },
     "android": {
       "adaptiveIcon": {
-        "backgroundColor": "#E6F4FE",
-        "foregroundImage": "./assets/android-icon-foreground.png",
-        "backgroundImage": "./assets/android-icon-background.png",
-        "monochromeImage": "./assets/android-icon-monochrome.png"
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#FBFAF7"
       },
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "package": "com.anonymous.proy_ayudas"
     },
     "web": {
-      "favicon": "./assets/favicon.png"
-    }
+      "favicon": "./assets/icon.png",
+      "output": "single"
+    },
+    "plugins": [
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/splash-icon.png",
+          "resizeMode": "contain",
+          "backgroundColor": "#FBFAF7"
+        }
+      ],
+      [
+        "expo-notifications",
+        {
+          "color": "#1B5E4A"
+        }
+      ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "36be66e4-57bf-4e41-9629-528894f6aa5b"
+      }
+    },
+    "owner": "mauricio_ortunho_quispe"
   }
 }
